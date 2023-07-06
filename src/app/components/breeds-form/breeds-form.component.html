@@ -1,0 +1,14 @@
+<form [formGroup]="searchForm">
+  <legend>Search Breeds</legend>
+  <input type="text" formControlName="search" placeholder="Search breeds" list="breedSuggestions"
+         (input)="filterBreeds(searchForm.get('search').value)" (change)="onInput($event.target.value)">
+  <datalist id="breedSuggestions">
+    <option *ngFor="let breed of filteredBreeds" [value]="breed">
+  </datalist>
+  <input type="text" formControlName="quantity" placeholder="Limit To (1 - 50 images)" (input)="onNumInput($event.target.value)"
+         [class.error]="isInvalid('quantity') && (searchForm.get('quantity').touched || searchForm.get('quantity').dirty)">
+  <div class="error-message"
+       *ngIf="isInvalid('quantity') && (searchForm.get('quantity').touched || searchForm.get('quantity').dirty)">
+    Only numbers between 1 - 50 allowed.
+  </div>
+</form>

@@ -1,0 +1,8 @@
+<div *ngIf="filteredImages?.length > 0">
+  <h2>Dogs Images</h2>
+  <div class="image-container">
+    <div class="image-wrapper" *ngFor="let imageUrl of filteredImages">
+      <img [src]="imageUrl" alt="Dog Image">
+    </div>
+  </div>
+</div>
