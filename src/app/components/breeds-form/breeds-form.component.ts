@@ -25,7 +25,7 @@ export class BreedsFormComponent implements OnInit {
   ngOnInit(): void {
     this.searchForm = this.fb.group({
       search: ['', Validators.required],
-      quantity: ['', [Validators.min(1), Validators.max(50)]]
+      quantity: ['', [Validators.min(1), Validators.max(50), Validators.pattern(/^\d+$/)]]
     });
 
     this.dogService.getBreeds().subscribe((breeds: string[]) => {

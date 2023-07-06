@@ -5,7 +5,7 @@
   <datalist id="breedSuggestions">
     <option *ngFor="let breed of filteredBreeds" [value]="breed">
   </datalist>
-  <input type="text" formControlName="quantity" placeholder="Limit To (1 - 50 images)" (input)="onNumInput($event.target.value)"
+  <input type="text" formControlName="quantity" placeholder="Limit images anount" (input)="onNumInput($event.target.value)"
          [class.error]="isInvalid('quantity') && (searchForm.get('quantity').touched || searchForm.get('quantity').dirty)">
   <div class="error-message"
        *ngIf="isInvalid('quantity') && (searchForm.get('quantity').touched || searchForm.get('quantity').dirty)">
