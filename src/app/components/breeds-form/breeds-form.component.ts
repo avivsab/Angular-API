@@ -1,15 +1,16 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DogService } from '../../services/dog.service';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
 
 @Component({
   selector: 'app-breeds-form',
   templateUrl: './breeds-form.component.html',
   styleUrls: ['./breeds-form.component.css']
 })
-export class BreedsFormComponent implements OnInit {
+export class BreedsFormComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   @Output() searchChange = new EventEmitter<string[]>();
   @Output() quantityChange = new EventEmitter<string[]>();
 
@@ -33,6 +34,11 @@ export class BreedsFormComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   filterBreeds(searchTerm: string) {
     this.filteredBreeds = this.breeds.filter(breed => breed.toLowerCase().includes(searchTerm.toLowerCase()));
   }
@@ -48,14 +54,16 @@ export class BreedsFormComponent implements OnInit {
       }
       this.dogService.filterBreeds(searchTerm, parseInt(this.imagesAmount))
       .pipe(
-        debounceTime(10000),
+        takeUntil(this.destroy$),
+        debounceTime(1000),
         distinctUntilChanged(),
         switchMap((data: any) => {
           this.searchChange.emit(data.message);
           return of(null);
         }),
-        tap(() => {}, (error: any) => {
+        catchError((error) => {
           console.error(error);
+          return of(null);
         })
       )
       .subscribe();
