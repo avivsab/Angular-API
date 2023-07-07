@@ -1,4 +1,7 @@
-input[type=text] {
+form.search-form {
+  text-align: center;
+}
+form.search-form input[type=text] {
   display: block;
   text-align: center;
   margin: 10px auto;
@@ -10,15 +13,17 @@ input[type=text] {
   transition: border-color 0.3s ease;
 }
 
-input[type="text"]:focus {
+form.search-form input[type="text"]:focus {
   border-color: #007bff;
 }
 
-input[type="text"].error {
+form.search-form input[type="text"].error {
   border: 2px solid red;
 }
 
-.error-message {
+form.search-form .error-message {
   color: red;
   font-size: 12px;
+  font-family: serif;
+  text-align: center;
 }

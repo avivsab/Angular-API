@@ -9,12 +9,12 @@ import { BreedResponse } from '../interfaces/Dogs';
   providedIn: 'root'
 })
 export class DogService {
-  private mainAPI = 'https://dog.ceo/api/breeds/list/all';
+  private mainURL = 'https://dog.ceo/api/breeds/list/all';
 
   constructor(private http: HttpClient) {}
 
   getBreeds(): Observable<string[]> {
-    return this.http.get<BreedResponse>(this.mainAPI).pipe(
+    return this.http.get<BreedResponse>(this.mainURL).pipe(
       map((response: BreedResponse) => Object.keys(response.message))
     );
   }

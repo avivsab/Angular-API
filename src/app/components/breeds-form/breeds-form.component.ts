@@ -44,7 +44,7 @@ export class BreedsFormComponent implements OnInit, OnDestroy {
   }
 
   onInput(searchTerm: string) {
-    this.searchForm.get('search').setValue(searchTerm); // Update the form control value
+    this.searchForm.get('search').setValue(searchTerm);
     if (!this.breeds.includes(searchTerm)) {
       return;
     }
